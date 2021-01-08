@@ -1,0 +1,3 @@
+isc-dhcp-server [dhcp platform:ubuntu]
+tftpd-hpa [tftp platform:ubuntu]
+inetutils-inetd [tftp platform:ubuntu]
