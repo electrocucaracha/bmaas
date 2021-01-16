@@ -63,6 +63,7 @@ Vagrant.configure("2") do |config|
       cd /vagrant
       ./deploy_tftp.sh | tee ~/deploy_tftp.log
       ./deploy_dhcp.sh | tee ~/deploy_dhcp.log
+      sudo nmap --script broadcast-dhcp-discover -e eth1
       ./deploy_pxe.sh | tee ~/deploy_pxe.log
     SHELL
   end # pxe_server
@@ -86,6 +87,27 @@ Vagrant.configure("2") do |config|
     SHELL
   end # bifrost
 
+  config.vm.define :tinkerbell do |tinkerbell|
+    tinkerbell.vm.hostname = "tinkerbell"
+    tinkerbell.vm.synced_folder './tinkerbell/', '/vagrant'
+
+    tinkerbell.vm.network :private_network,
+                      ip: '10.11.0.4',
+                      virtualbox__intnet: "pxe_network",
+                      libvirt__network_name: "pxe_network",
+                      libvirt__dhcp_enabled: false
+
+    tinkerbell.vm.provision 'shell', privileged: false, inline: <<-SHELL
+      set -o errexit
+      set -o pipefail
+
+      cd /vagrant
+      ./install.sh | tee ~/install.log
+      ./setup.sh | tee ~/setup.log
+      ./deploy.sh | tee ~/deploy.log
+    SHELL
+  end # tinkerbell
+
   config.vm.define :node, autostart: false do |node|
     node.vm.network :private_network,
                       mac: "000000000002",
@@ -96,10 +118,14 @@ Vagrant.configure("2") do |config|
         p.memory = 512
       end
     end
+    node.vm.provider "virtualbox" do |v|
+      v.gui = true
+    end
 
-    node.vm.provider :libvirt do |lv|
+    node.vm.provider :libvirt do |lv,override|
       lv.boot 'network'
       lv.mgmt_attach = false
+      override.vm.box = nil
     end
 
     node.vm.provider :virtualbox do |vb, worker|

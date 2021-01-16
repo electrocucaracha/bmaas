@@ -1,0 +1,32 @@
+{
+	"id": "00000000-0000-0000-0000-000000000001",
+	"metadata": {
+		"facility": {
+			"facility_code": "onprem"
+		},
+		"instance": {},
+		"state": "provisioning"
+	},
+	"network": {
+		"interfaces": [{
+			"dhcp": {
+				"arch": "x86_64",
+				"hostname": "testvm1",
+				"ip": {
+					"address": "10.11.0.5",
+					"gateway": "10.11.0.1",
+					"netmask": "255.255.255.0"
+				},
+				"lease_time": 86400,
+				"mac": "00:00:00:00:00:02",
+				"name_servers": [],
+				"time_servers": [],
+				"uefi": false
+			},
+			"netboot": {
+				"allow_pxe": true,
+				"allow_workflow": true
+			}
+		}]
+	}
+}
