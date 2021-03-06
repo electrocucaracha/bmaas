@@ -4,10 +4,15 @@
 ## Summary
 
 This project was created to understand the Bare-Metal provisioning
-processs. The [PXE server folder](pxe_server) contains instructions to
-deploy services required by a dedicated Provisioning server. The
-[Bifrost folder](bifrost) contains instructions to deploy the
-[OpenStack Bare Metal as a Service(BMaaS)][3] project.
+processs. It supports three differen projects to perform it.
+
+* _Manual process_: The [PXE server folder](pxe_server) contains
+instructions to deploy services required by a dedicated
+Provisioning server.
+* _Bifrost tool_: The [Bifrost folder](bifrost) contains instructions
+to deploy the [OpenStack Bare Metal as a Service(BMaaS)][3] project.
+* _Tinkerbell_: The [Tinkerbell folder](tinkerbell) contains
+instructions to deploy the [CNCF Tinkerbell][4] project.
 
 ## Virtual Machines
 
@@ -23,7 +28,7 @@ are determine by the **PROVIDER** environment variable.
 Once Vagrant is installed, it's possible to provision a Virtual
 Machine using the following instructions:
 
-    $ vagrant up <pxe_server|bifrost>
+    $ vagrant up <pxe_server|bifrost|tinkerbell>
 
 The `node` VM is used to test target machines. This machine use
 network booting provided by the PXE Server.
@@ -33,3 +38,4 @@ network booting provided by the PXE Server.
 [1]: https://www.vagrantup.com/
 [2]: https://github.com/electrocucaracha/bootstrap-vagrant
 [3]: https://docs.openstack.org/bifrost/latest/
+[4]: https://tinkerbell.org/
