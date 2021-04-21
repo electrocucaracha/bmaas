@@ -1,5 +1,6 @@
 # Bare Metal as a Service
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GitHub Super-Linter](https://github.com/electrocucaracha/bmaas/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 ## Summary
 
@@ -23,17 +24,23 @@ dependencies and plugins required for this project. That script
 supports two Virtualization providers (Libvirt and VirtualBox) which
 are determine by the **PROVIDER** environment variable.
 
-    $ curl -fsSL http://bit.ly/initVagrant | PROVIDER=libvirt bash
+```bash
+curl -fsSL http://bit.ly/initVagrant | PROVIDER=libvirt bash
+```
 
 Once Vagrant is installed, it's possible to provision a Virtual
 Machine using the following instructions:
 
-    $ vagrant up <pxe_server|bifrost|tinkerbell>
+```bash
+vagrant up <pxe_server|bifrost|tinkerbell>
+```
 
 The `node` VM is used to test target machines. This machine use
 network booting provided by the PXE Server.
 
-    $ vagrant up node
+```bash
+vagrant up node
+```
 
 [1]: https://www.vagrantup.com/
 [2]: https://github.com/electrocucaracha/bootstrap-vagrant
