@@ -26,11 +26,11 @@ while IFS= read -r image; do
     fi
 done < actions.txt
 
-if ! tink template list | grep -q hello-world; then
-    tink template create --path hello-world.tmpl --name hello-world
+if tink template get --no-headers | grep -q hello_world_workflow; then
+    tink template create --file hello-world.tmpl
 fi
-template_id=$(tink template list | grep hello-world | awk -F '|' '{ print $2}' | xargs)
+template_id=$(tink template get --no-headers | grep hello_world_workflow | awk -F '|' '{ print $2}' | xargs)
 tink hardware push --file testvm.json
-if ! tink workflow list | grep -q 00:00:00:00:00:02; then
+if tink workflow get --no-headers | grep -q 00:00:00:00:00:02; then
     tink workflow create --template "$template_id" --hardware '{"device_1": "00:00:00:00:00:02"}'
 fi
