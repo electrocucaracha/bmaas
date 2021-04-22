@@ -70,6 +70,7 @@ Vagrant.configure("2") do |config|
   config.vm.define :bifrost do |bifrost|
     bifrost.vm.hostname = "bifrost"
     bifrost.vm.synced_folder './bifrost/', '/vagrant'
+    bifrost.vm.box = "generic/ubuntu2004"
 
     bifrost.vm.network :private_network,
                       ip: '10.11.0.3',
