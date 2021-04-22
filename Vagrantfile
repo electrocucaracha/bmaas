@@ -34,6 +34,7 @@ Vagrant.configure("2") do |config|
     v.random_hostname = true
     v.management_network_address = "10.0.2.0/24"
     v.management_network_name = "administration"
+    v.cpu_mode = "host-passthrough"
   end
 
   if ENV['http_proxy'] != nil and ENV['https_proxy'] != nil
@@ -78,13 +79,18 @@ Vagrant.configure("2") do |config|
                       libvirt__network_name: "pxe_network",
                       libvirt__dhcp_enabled: false
 
-    bifrost.vm.provision 'shell', privileged: false, inline: <<-SHELL
-      set -o errexit
-      set -o pipefail
+    bifrost.vm.provision "shell", privileged: false do |sh|
+      sh.env = {
+        BIFROST_PXE_NIC: "eth0"
+      }
+      sh.inline = <<~SHELL
+        set -o errexit
+        set -o pipefail
 
-      cd /vagrant
-      ./deploy.sh | tee ~/deploy.log
-    SHELL
+        cd /vagrant
+        ./deploy.sh | tee ~/deploy.log
+      SHELL
+    end
   end # bifrost
 
   config.vm.define :tinkerbell do |tinkerbell|
