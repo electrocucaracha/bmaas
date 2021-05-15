@@ -13,7 +13,7 @@ set -o xtrace
 set -o errexit
 set -o nounset
 
-cfssl_version=1.4.1
+export PKG_GOLANG_VERSION=1.15.12
 
 # get_cpu_arch() - Gets CPU architecture of the server
 function get_cpu_arch {
@@ -40,14 +40,6 @@ if ! command -v curl; then
         ;;
     esac
 fi
-if ! command -v cfssl; then
-    sudo curl -sLo /usr/bin/cfssl "https://github.com/cloudflare/cfssl/releases/download/v${cfssl_version}/cfssl_${cfssl_version}_$(uname | awk '{print tolower($0)}')_$(get_cpu_arch)" > /dev/null
-    sudo chmod +x /usr/bin/cfssl
-fi
-if ! command -v cfssljson; then
-    sudo curl -sLo /usr/bin/cfssljson "https://github.com/cloudflare/cfssl/releases/download/v${cfssl_version}/cfssljson_${cfssl_version}_$(uname | awk '{print tolower($0)}')_$(get_cpu_arch)" > /dev/null
-    sudo chmod +x /usr/bin/cfssljson
-fi
 pkgs=""
 for pkg in docker docker-compose make git skopeo; do
     if ! command -v "$pkg"; then
@@ -56,6 +48,9 @@ for pkg in docker docker-compose make git skopeo; do
 done
 if ! command -v go; then
     pkgs+=" go-lang"
+fi
+if ! command -v gcc; then
+    pkgs+=" build-essential"
 fi
 if ! command -v htpasswd; then
     pkgs+=" apache2-utils"
@@ -74,3 +69,10 @@ if ! command -v tink; then
     sudo cp cmd/tink-cli/tink-cli /usr/bin/tink
     popd
 fi
+for cmd in cfssl cfssljson; do
+    if ! command -v "$cmd"; then
+        go get -u "github.com/cloudflare/cfssl/cmd/$cmd"
+        sudo mv "$HOME/go/bin/$cmd" /usr/bin/
+        sudo chmod +x "/usr/bin/$cmd"
+    fi
+done
