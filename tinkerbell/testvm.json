@@ -5,7 +5,7 @@
 			"facility_code": "onprem"
 		},
 		"instance": {},
-		"state": "provisioning"
+		"state": ""
 	},
 	"network": {
 		"interfaces": [{
@@ -17,10 +17,7 @@
 					"gateway": "10.11.0.1",
 					"netmask": "255.255.255.0"
 				},
-				"lease_time": 86400,
 				"mac": "00:00:00:00:00:02",
-				"name_servers": [],
-				"time_servers": [],
 				"uefi": false
 			},
 			"netboot": {
