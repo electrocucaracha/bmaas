@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
           restore-keys: |
             ${{ runner.os }}-vagrant-
-      - name: Install Guest Addition Plugin
-        run: vagrant plugin install vagrant-vbguest
+      - name: Replace shorten links
+        run: sed -i '.bak' 's|http://bit.ly/install_pkg|https://raw.githubusercontent.com/electrocucaracha/pkg-mgr_scripts/master/install.sh|g' bifrost/deploy.sh
       - name: Deploy Bifrost instance
         run: vagrant up bifrost
