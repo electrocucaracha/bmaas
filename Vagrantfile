@@ -28,6 +28,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |v|
     v.gui = false
+    v.customize ["modifyvm", :id, "--nictype1", "virtio", "--cableconnected1", "on"]
+    v.customize ["modifyvm", :id, "--nictype2", "virtio", "--cableconnected2", "on"]
   end
 
   config.vm.provider :libvirt do |v|
