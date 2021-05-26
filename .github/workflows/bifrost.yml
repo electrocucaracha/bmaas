@@ -17,8 +17,8 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-20.04
+    runs-on: macos-10.15
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy services
-        run: cd bifrost/; ./deploy.sh
+      - name: Run vagrant up
+        run: vagrant up bifrost
