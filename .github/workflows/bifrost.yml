@@ -18,7 +18,18 @@ on:
 jobs:
   check:
     runs-on: macos-10.15
+    env:
+      VAGRANT_DISABLE_VBOXSYMLINKCREATE: 1
     steps:
       - uses: actions/checkout@v2
-      - name: Run vagrant up
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
+      - name: Install Guest Addition Plugin
+        run: vagrant plugin install vagrant-vbguest
+      - name: Deploy Bifrost instance
         run: vagrant up bifrost
