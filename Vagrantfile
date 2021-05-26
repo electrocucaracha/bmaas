@@ -132,6 +132,7 @@ Vagrant.configure("2") do |config|
       lv.boot 'network'
       lv.mgmt_attach = false
       override.vm.box = nil
+      lv.storage :file, :size => '40G'
     end
 
     node.vm.provider :virtualbox do |vb, worker|
