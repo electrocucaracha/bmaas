@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :libvirt
   config.vm.provider :virtualbox
 
-  config.vm.box = "generic/ubuntu1804"
+  config.vm.box = "generic/ubuntu2004"
   config.vm.box_check_update = false
   [:virtualbox, :libvirt].each do |provider|
     config.vm.provider provider do |p|
@@ -126,9 +126,6 @@ Vagrant.configure("2") do |config|
         p.memory = 512
       end
     end
-    node.vm.provider "virtualbox" do |v|
-      v.gui = true
-    end
 
     node.vm.provider :libvirt do |lv,override|
       lv.boot 'network'
@@ -137,7 +134,8 @@ Vagrant.configure("2") do |config|
       lv.storage :file, :size => '40G'
     end
 
-    node.vm.provider :virtualbox do |vb, worker|
+    node.vm.provider :virtualbox do |vb|
+      vb.gui = true
       vb.customize [
         'modifyvm',:id,'--boot1','net','--boot2','none',
         '--boot3','none','--boot4','none',
