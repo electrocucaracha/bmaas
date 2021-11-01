@@ -39,4 +39,5 @@ TFTP_OPTIONS="--secure"
 RUN_DAEMON="no"
 OPTIONS="-l -s /var/lib/tftpboot"
 EOF
+sudo mkdir -p /var/lib/tftpboot
 sudo systemctl restart tftpd-hpa
