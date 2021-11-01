@@ -13,7 +13,8 @@ set -o xtrace
 set -o errexit
 set -o nounset
 
-export PKG_GOLANG_VERSION=1.15.12
+# shellcheck source=tinkerbell/defaults.env
+source defaults.env
 
 # shellcheck disable=SC1091
 source /etc/os-release || source /usr/lib/os-release

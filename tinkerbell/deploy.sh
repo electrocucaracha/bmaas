@@ -15,8 +15,9 @@ set -o nounset
 
 # shellcheck disable=SC1091
 source /etc/environment
+# shellcheck source=tinkerbell/defaults.env
+source defaults.env
 
-export TINKERBELL_CERTS_PATH=/var/local/certs
 max_attempts=3
 mac_address="00:00:00:00:00:02"
 

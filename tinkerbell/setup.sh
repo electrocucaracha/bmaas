@@ -13,9 +13,8 @@ set -o xtrace
 set -o errexit
 set -o nounset
 
-export TINKERBELL_CERTS_PATH=/var/local/certs
-export TINKERBELL_GRPC_AUTHORITY=127.0.0.1:42113
-export TINKERBELL_CERT_URL=http://127.0.0.1:42114/cert
+# shellcheck source=tinkerbell/defaults.env
+source defaults.env
 
 # setup_network_forwarding() - Enables IP forwarding for docker
 function setup_network_forwarding {
@@ -94,10 +93,10 @@ fi
 cat server.pem ca.pem > bundle.pem
 popd
 
-if ! grep -q TINKERBELL_GRPC_AUTHORITY /etc/environment; then
+if [[ -n "${TINKERBELL_GRPC_AUTHORITY+x}" ]] && ! grep -q TINKERBELL_GRPC_AUTHORITY /etc/environment; then
     echo "export TINKERBELL_GRPC_AUTHORITY=$TINKERBELL_GRPC_AUTHORITY" | sudo tee --append /etc/environment
 fi
-if ! grep -q TINKERBELL_CERT_URL /etc/environment; then
+if [[ -n "${TINKERBELL_CERT_URL+x}" ]] && ! grep -q TINKERBELL_CERT_URL /etc/environment; then
     echo "export TINKERBELL_CERT_URL=$TINKERBELL_CERT_URL" | sudo tee --append /etc/environment
 fi
 
