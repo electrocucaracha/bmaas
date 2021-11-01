@@ -15,21 +15,6 @@ set -o nounset
 
 export PKG_GOLANG_VERSION=1.15.12
 
-# get_cpu_arch() - Gets CPU architecture of the server
-function get_cpu_arch {
-    case "$(uname -m)" in
-        x86_64)
-            echo "amd64"
-        ;;
-        armv8*|aarch64*)
-            echo "arm64"
-        ;;
-        armv*)
-            echo "armv7"
-        ;;
-    esac
-}
-
 # shellcheck disable=SC1091
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
@@ -40,12 +25,8 @@ if ! command -v curl; then
         ;;
     esac
 fi
+
 pkgs=""
-for pkg in docker docker-compose make git skopeo; do
-    if ! command -v "$pkg"; then
-        pkgs+=" $pkg"
-    fi
-done
 if ! command -v go; then
     pkgs+=" go-lang"
 fi
@@ -55,9 +36,9 @@ fi
 if ! command -v htpasswd; then
     pkgs+=" apache2-utils"
 fi
-if [ -n "$pkgs" ]; then
-    # NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
-    curl -fsSL http://bit.ly/install_pkg | PKG=$pkgs bash
+# NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
+curl -fsSL http://bit.ly/install_pkg | PKG=$pkgs PKG_COMMANDS_LIST="skopeo,docker,docker-compose,make git" bash
+if ! command -v go; then
     # shellcheck disable=SC1091
     source /etc/profile.d/path.sh
 fi
