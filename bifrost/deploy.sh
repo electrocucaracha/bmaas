@@ -35,23 +35,22 @@ if [[ -z $(sudo docker ps -aqf "name=ipmi-server") ]]; then
     --restart=always vaporio/ipmi-simulator
 fi
 
-sudo git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/victoria /opt/stack/bifrost
+BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"
+export BIFROST_INVENTORY_SOURCE
+sudo git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/xena /opt/stack/bifrost
 pxe_nic="${BIFROST_PXE_NIC:-$(ip route get 8.8.8.8 | grep "^8." | awk '{ print $5 }')}"
 pushd /opt/stack/bifrost
 ./bifrost-cli install \
     --network-interface "${pxe_nic}" \
     --dhcp-pool 10.11.0.10-10.11.0.100
-popd
-
 # shellcheck disable=SC1091
 source /opt/stack/bifrost/bin/activate
-
-BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"
-export BIFROST_INVENTORY_SOURCE
-ansible-playbook -vvvv -i /opt/stack/bifrost/playbooks/inventory/ \
-    /opt/stack/bifrost/playbooks/enroll-dynamic.yaml \
-    -e network_interface="${pxe_nic}"
-
 export OS_CLOUD=bifrost
+echo "OS_CLOUD=bifrost" | sudo tee --append /etc/environment
+
+./bifrost-cli enroll "$BIFROST_INVENTORY_SOURCE" \
+    -e network_interface="${pxe_nic}"
+popd
+
 baremetal node list
 ipmitool -H 127.0.0.1 -U ADMIN -P ADMIN -I lanplus chassis status
