@@ -16,6 +16,21 @@ set -o nounset
 # shellcheck source=tinkerbell/defaults.env
 source defaults.env
 
+# get_cpu_arch() - Gets CPU architecture of the server
+function get_cpu_arch {
+    case "$(uname -m)" in
+        x86_64)
+            echo "amd64"
+        ;;
+        armv8*|aarch64*)
+            echo "arm64"
+        ;;
+        armv*)
+            echo "armv7"
+        ;;
+    esac
+}
+
 # shellcheck disable=SC1091
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
@@ -45,7 +60,7 @@ if ! command -v go; then
 fi
 
 if ! command -v tink; then
-    git clone --depth 1 https://github.com/tinkerbell/tink /tmp/tink
+    git clone --depth 1 -b "v${TINKERBELL_VERSION}" https://github.com/tinkerbell/tink /tmp/tink
     pushd /tmp/tink
     make cli
     sudo cp cmd/tink-cli/tink-cli /usr/bin/tink
@@ -53,8 +68,7 @@ if ! command -v tink; then
 fi
 for cmd in cfssl cfssljson; do
     if ! command -v "$cmd"; then
-        go get -u "github.com/cloudflare/cfssl/cmd/$cmd"
-        sudo mv "$HOME/go/bin/$cmd" /usr/bin/
+        sudo curl -sLo "/usr/bin/$cmd" "https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/${cmd}_${CFSSL_VERSION}_$(uname | awk '{print tolower($0)}')_$(get_cpu_arch)" > /dev/null
         sudo chmod +x "/usr/bin/$cmd"
     fi
 done

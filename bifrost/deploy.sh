@@ -24,10 +24,8 @@ if ! command -v curl; then
     esac
 fi
 
-if ! command -v docker; then
-    # NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
-    curl -fsSL http://bit.ly/install_pkg | PKG=docker bash
-fi
+# NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
+curl -fsSL http://bit.ly/install_pkg | PKG_COMMANDS_LIST="docker" bash
 
 if [[ -z $(sudo docker ps -aqf "name=ipmi-server") ]]; then
     # https://github.com/vapor-ware/ipmi-simulator
