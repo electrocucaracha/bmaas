@@ -19,7 +19,7 @@ instructions to deploy the [CNCF Tinkerbell][4] project.
 ## Virtual Machines
 
 The [Vagrant tool][1] can be used for provisioning an Ubuntu Bionic
-Virtual Machine. It's highly recommended to use the  *setup.sh* script
+Virtual Machine. It's highly recommended to use the  _setup.sh_ script
 of the [bootstrap-vagrant project][2] for installing Vagrant
 dependencies and plugins required for this project. That script
 supports two Virtualization providers (Libvirt and VirtualBox) which
