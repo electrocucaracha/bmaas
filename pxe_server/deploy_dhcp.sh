@@ -24,11 +24,8 @@ if ! command -v curl; then
     esac
 fi
 
-if ! command -v bindep; then
-    # NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
-    curl -fsSL http://bit.ly/install_pkg | PKG=bindep bash
-fi
-curl -fsSL http://bit.ly/install_pkg | PKG="$(bindep -b dhcp)" bash
+# NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
+curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=dhcp bash
 
 echo 'INTERFACES="eth1"' | sudo tee /etc/default/isc-dhcp-server
 sudo tee <<EOF /etc/dhcp/dhcpd.conf

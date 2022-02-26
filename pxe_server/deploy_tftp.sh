@@ -24,11 +24,8 @@ if ! command -v curl; then
     esac
 fi
 
-if ! command -v bindep; then
-    # NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
-    curl -fsSL http://bit.ly/install_pkg | PKG=bindep bash
-fi
-curl -fsSL http://bit.ly/install_pkg | PKG="$(bindep -b tftp)" bash
+# NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
+curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=tftp bash
 
 echo 'tftp    dgram   udp    wait    root    /usr/sbin/in.tftpd /usr/sbin/in.tftpd -s /var/lib/tftpboot' | sudo tee /etc/inetd.conf
 sudo tee <<EOF /etc/default/tftpd-hpa
