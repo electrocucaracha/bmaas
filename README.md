@@ -6,7 +6,7 @@
 ## Summary
 
 This project was created to understand the Bare-Metal provisioning
-processs. It supports three differen projects to perform it.
+process. It supports three different projects to perform it.
 
 * _Manual process_: The [PXE server folder](pxe_server) contains
 instructions to deploy services required by a dedicated

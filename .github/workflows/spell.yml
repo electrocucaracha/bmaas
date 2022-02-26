@@ -25,3 +25,10 @@ jobs:
       - uses: reviewdog/action-misspell@v1
         with:
           github_token: ${{ secrets.github_token }}
+  check-spellcheck:
+    name: Check spelling (pyspelling)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: igsekor/pyspelling-any@v1.0.4
+        name: Spellcheck
