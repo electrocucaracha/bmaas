@@ -8,21 +8,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-name: Check Tinkerbell installation
+name: Check PXE installation
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - 'master'
+    paths:
+      - 'pxe_server/*'
 
 jobs:
-  check:
+  check-pxe:
+    name: Check PXE server installation in an Ubuntu Bionic Virtual Environment
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - name: Install Tinkerbell dependencies
-        run: cd tinkerbell/; ./install.sh
-      - name: Setup Tinkerbell configuration
-        run: cd tinkerbell/; ./setup.sh
-      - name: Deploy Tinkerbell services
-        run: cd tinkerbell/; ./deploy.sh
+      - name: Deploy services
+        run: |
+          cd pxe_server/
+          ./deploy_tftp.sh
+          ./deploy_dhcp.sh
+          ./deploy_pxe.sh

@@ -8,23 +8,22 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-name: Lint Code Base
+name: Check Tinkerbell installation
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - 'master'
+    paths:
+      - 'tinkerbell/*'
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
+  check-tinkerbell:
+    name: Check Tinkerbell installation in an Ubuntu Bionic Virtual Environment
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
-      - uses: github/super-linter@v3
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: /
-      - name: Install tox
-        run: pip install tox
-      - name: Run tox validation
-        run: tox -e lint
+      - name: Deploy services
+        run: |
+          cd tinkerbell/
+          ./install.sh
+          ./setup.sh
+          ./deploy.sh

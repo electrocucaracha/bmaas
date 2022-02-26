@@ -8,21 +8,27 @@
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-name: Check manual installation
+name: Lint Code Base
 # yamllint disable-line rule:truthy
 on:
   push:
-    branches:
-      - 'master'
 
 jobs:
-  check:
-    runs-on: ubuntu-20.04
+  check-super-linter:
+    name: Check syntax (super-linter)
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install TFTP server
-        run: cd pxe_server/; ./deploy_tftp.sh
-      - name: Install DHCP server
-        run: cd pxe_server/; ./deploy_dhcp.sh
-      - name: Install PXE server
-        run: cd pxe_server/; ./deploy_pxe.sh
+      - uses: github/super-linter@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LINTER_RULES_PATH: /
+  check-tox:
+    name: Check syntax (tox)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install tox
+        run: pip install tox
+      - name: Run tox validation
+        run: tox -e lint
