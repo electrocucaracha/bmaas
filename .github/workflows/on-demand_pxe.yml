@@ -20,7 +20,7 @@ jobs:
     name: Check PXE server installation in an Ubuntu Bionic Virtual Environment
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Deploy services
         run: |
           cd pxe_server/
