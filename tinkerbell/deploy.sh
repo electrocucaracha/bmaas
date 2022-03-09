@@ -21,7 +21,7 @@ source defaults.env
 max_attempts=3
 mac_address="00:00:00:00:00:02"
 
-sudo docker-compose up -d
+sudo -E docker-compose up -d
 
 # Setup Local Registry
 sudo docker login --username "${REGISTRY_USERNAME:-docker}" --password "${REGISTRY_PASSWORD:-secret}" http://localhost:5000
