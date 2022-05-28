@@ -1,24 +1,63 @@
 ---
 # SPDX-license-identifier: Apache-2.0
 ##############################################################################
-# Copyright (c) 2021
+# Copyright (c) 2022
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Apache License, Version 2.0
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-name: Check OpenStack Bifrost installation
+name: Check End-to-End installation
 # yamllint disable-line rule:truthy
 on:
   push:
     paths:
+      - 'pxe_server/*'
       - 'bifrost/*'
+      - 'tinkerbell/*'
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      pxe: ${{ steps.filter.outputs.pxe }}
+      bifrost: ${{ steps.filter.outputs.bifrost }}
+      tinkerbell: ${{ steps.filter.outputs.tinkerbell }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: dorny/paths-filter@v2
+        if: ${{ !env.ACT }}
+        id: filter
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          filters: |
+            pxe:
+              - 'pxe_server/*'
+            bifrost:
+              - 'bifrost/*'
+            tinkerbell:
+              - 'tinkerbell/*'
+  check-pxe:
+    if: needs.changes.outputs.pxe == 'true'
+    name: Check PXE server installation in an Ubuntu Bionic Virtual Environment
+    runs-on: ubuntu-20.04
+    needs:
+      - changes
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy services
+        run: |
+          cd pxe_server/
+          ./deploy_tftp.sh
+          ./deploy_dhcp.sh
+          ./deploy_pxe.sh
   check-bifrost:
+    if: needs.changes.outputs.bifrost == 'true'
     name: Check OpenStack Bifrost installation in an Ubuntu Bionic Virtual Machine
     runs-on: macos-10.15
+    needs:
+      - changes
     steps:
       - uses: actions/checkout@v3
       - name: Cache Vagrant boxes
@@ -50,3 +89,17 @@ jobs:
           vm_stat
           top -l 1 -n 0
           VBoxManage list runningvms --long
+  check-tinkerbell:
+    if: needs.changes.outputs.tinkerbell == 'true'
+    name: Check Tinkerbell installation in an Ubuntu Bionic Virtual Environment
+    runs-on: ubuntu-20.04
+    needs:
+      - changes
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy services
+        run: |
+          cd tinkerbell/
+          ./install.sh
+          ./setup.sh
+          ./deploy.sh
