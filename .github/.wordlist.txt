@@ -1,7 +1,5 @@
 bifrost
-Bifrost
 bmaas
-BMaaS
 CNCF
 electrocucaracha
 fsSL
@@ -10,15 +8,11 @@ https
 img
 initVagrant
 libvirt
-Libvirt
 linter
-Linter
 ly
 opensource
 openstack
-OpenStack
 pxe
-PXE
 src
 svg
 vagrantup
