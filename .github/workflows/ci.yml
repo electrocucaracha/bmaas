@@ -16,6 +16,9 @@ on:
       - 'pxe_server/*'
       - 'bifrost/*'
       - 'tinkerbell/*'
+  schedule:
+    - cron: '0 0 * * 5'
+  workflow_dispatch:
 
 jobs:
   changes:
