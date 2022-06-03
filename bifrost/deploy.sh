@@ -13,6 +13,8 @@ set -o xtrace
 set -o errexit
 set -o nounset
 
+bifrost_src_path="/opt/stack/bifrost"
+
 # shellcheck disable=SC1091
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
@@ -35,7 +37,10 @@ fi
 
 BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"
 export BIFROST_INVENTORY_SOURCE
-sudo git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/xena /opt/stack/bifrost
+if [ ! -d "$bifrost_src_path" ]; then
+    sudo -E git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/yoga "$bifrost_src_path"
+    sudo chown -R "$USER" "${bifrost_src_path}"
+fi
 pxe_nic="${BIFROST_PXE_NIC:-$(ip route get 8.8.8.8 | grep "^8." | awk '{ print $5 }')}"
 pushd /opt/stack/bifrost
 ./bifrost-cli install \
