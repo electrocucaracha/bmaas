@@ -1,4 +1,5 @@
 # Bare Metal as a Service
+<!-- markdown-link-check-disable-next-line -->
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![GitHub Super-Linter](https://github.com/electrocucaracha/bmaas/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
 ![visitors](https://visitor-badge.glitch.me/badge?page_id=electrocucaracha.bmaas)
