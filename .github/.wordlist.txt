@@ -1,5 +1,6 @@
 bifrost
 bmaas
+brightgreen
 CNCF
 electrocucaracha
 fsSL
@@ -13,6 +14,7 @@ ly
 opensource
 openstack
 pxe
+rubocop
 src
 svg
 vagrantup
