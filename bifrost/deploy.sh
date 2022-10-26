@@ -38,7 +38,7 @@ fi
 BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"
 export BIFROST_INVENTORY_SOURCE
 if [ ! -d "$bifrost_src_path" ]; then
-    sudo -E git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/yoga "$bifrost_src_path"
+    sudo -E git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/zed "$bifrost_src_path"
     sudo chown -R "$USER" "${bifrost_src_path}"
 fi
 pxe_nic="${BIFROST_PXE_NIC:-$(ip route get 8.8.8.8 | grep "^8." | awk '{ print $5 }')}"
