@@ -41,6 +41,7 @@ Vagrant.configure('2') do |config|
     v.management_network_address = '10.0.2.0/24'
     v.management_network_name = 'administration'
     v.cpu_mode = 'host-passthrough'
+    v.memorybacking :access, mode: 'shared'
   end
 
   if !ENV['http_proxy'].nil? && !ENV['https_proxy'].nil? && Vagrant.has_plugin?('vagrant-proxyconf')
@@ -53,6 +54,10 @@ Vagrant.configure('2') do |config|
   config.vm.define :pxe_server do |pxe_server|
     pxe_server.vm.hostname = 'pxe-server'
     pxe_server.vm.synced_folder './pxe_server/', '/vagrant'
+
+    pxe_server.vm.provider :libvirt do |_v, override|
+      override.vm.synced_folder './pxe_server/', '/vagrant', type: 'virtiofs'
+    end
 
     pxe_server.vm.network :private_network,
                           ip: '10.11.0.2',
@@ -75,6 +80,10 @@ Vagrant.configure('2') do |config|
   config.vm.define :bifrost do |bifrost|
     bifrost.vm.hostname = 'bifrost'
     bifrost.vm.synced_folder './bifrost/', '/vagrant'
+
+    bifrost.vm.provider :libvirt do |_v, override|
+      override.vm.synced_folder './bifrost/', '/vagrant', type: 'virtiofs'
+    end
 
     bifrost.vm.network :private_network,
                        ip: '10.11.0.3',
@@ -99,6 +108,10 @@ Vagrant.configure('2') do |config|
   config.vm.define :tinkerbell do |tinkerbell|
     tinkerbell.vm.hostname = 'tinkerbell'
     tinkerbell.vm.synced_folder './tinkerbell/', '/vagrant'
+
+    tinkerbell.vm.provider :libvirt do |_v, override|
+      override.vm.synced_folder './tinkerbell/', '/vagrant', type: 'virtiofs'
+    end
 
     tinkerbell.vm.network :private_network,
                           ip: '10.11.0.4',
