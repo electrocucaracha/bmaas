@@ -17,9 +17,9 @@ set -o nounset
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
     case ${ID,,} in
-        ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
+    ubuntu | debian)
+        sudo apt-get update
+        sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
         ;;
     esac
 fi
@@ -28,7 +28,7 @@ fi
 curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=tftp bash
 
 echo 'tftp    dgram   udp    wait    root    /usr/sbin/in.tftpd /usr/sbin/in.tftpd -s /var/lib/tftpboot' | sudo tee /etc/inetd.conf
-sudo tee <<EOF /etc/default/tftpd-hpa
+sudo tee /etc/default/tftpd-hpa <<EOF
 TFTP_USERNAME="tftp"
 TFTP_DIRECTORY="/var/lib/tftpboot"
 TFTP_ADDRESS=":69"

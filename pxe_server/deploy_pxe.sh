@@ -23,14 +23,14 @@ sudo rm -rf /tmp/preseeded
 mkdir -p /tmp/preseeded
 cp preseed.cfg /tmp/preseeded/
 pushd /tmp/preseeded
-gzip -d < /var/lib/tftpboot/ubuntu-installer/amd64/initrd.gz | sudo cpio -id
-find . | sudo cpio -o -H newC | gzip > initrd.gz
+gzip -d </var/lib/tftpboot/ubuntu-installer/amd64/initrd.gz | sudo cpio -id
+find . | sudo cpio -o -H newC | gzip >initrd.gz
 sudo mv initrd.gz /var/lib/tftpboot/initrd.gz
 popd
 
 # PXELINUX Configuration for 00:00:00:00:00:02
 # https://wiki.syslinux.org/wiki/index.php?title=PXELINUX#Configuration
-sudo tee << EOF /var/lib/tftpboot/ubuntu-installer/amd64/pxelinux.cfg/01-00-00-00-00-00-02
+sudo tee /var/lib/tftpboot/ubuntu-installer/amd64/pxelinux.cfg/01-00-00-00-00-00-02 <<EOF
 DEFAULT cli
 LABEL cli
   KERNEL ubuntu-installer/amd64/linux

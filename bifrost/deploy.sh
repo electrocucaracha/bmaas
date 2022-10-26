@@ -19,9 +19,9 @@ bifrost_src_path="/opt/stack/bifrost"
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
     case ${ID,,} in
-        ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
+    ubuntu | debian)
+        sudo apt-get update
+        sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
         ;;
     esac
 fi
@@ -32,7 +32,7 @@ curl -fsSL http://bit.ly/install_pkg | PKG_COMMANDS_LIST="docker" bash
 if [[ -z $(sudo docker ps -aqf "name=ipmi-server") ]]; then
     # https://github.com/vapor-ware/ipmi-simulator
     sudo docker run -d -p 623:623/udp --name ipmi-server \
-    --restart=always vaporio/ipmi-simulator
+        --restart=always vaporio/ipmi-simulator
 fi
 
 BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"

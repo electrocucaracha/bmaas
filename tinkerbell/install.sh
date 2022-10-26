@@ -19,14 +19,14 @@ source defaults.env
 # get_cpu_arch() - Gets CPU architecture of the server
 function get_cpu_arch {
     case "$(uname -m)" in
-        x86_64)
-            echo "amd64"
+    x86_64)
+        echo "amd64"
         ;;
-        armv8*|aarch64*)
-            echo "arm64"
+    armv8* | aarch64*)
+        echo "arm64"
         ;;
-        armv*)
-            echo "armv7"
+    armv*)
+        echo "armv7"
         ;;
     esac
 }
@@ -35,9 +35,9 @@ function get_cpu_arch {
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
     case ${ID,,} in
-        ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
+    ubuntu | debian)
+        sudo apt-get update
+        sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
         ;;
     esac
 fi
@@ -68,7 +68,7 @@ if ! command -v tink; then
 fi
 for cmd in cfssl cfssljson; do
     if ! command -v "$cmd"; then
-        sudo curl -sLo "/usr/bin/$cmd" "https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/${cmd}_${CFSSL_VERSION}_$(uname | awk '{print tolower($0)}')_$(get_cpu_arch)" > /dev/null
+        sudo curl -sLo "/usr/bin/$cmd" "https://github.com/cloudflare/cfssl/releases/download/v${CFSSL_VERSION}/${cmd}_${CFSSL_VERSION}_$(uname | awk '{print tolower($0)}')_$(get_cpu_arch)" >/dev/null
         sudo chmod +x "/usr/bin/$cmd"
     fi
 done

@@ -17,9 +17,9 @@ set -o nounset
 source /etc/os-release || source /usr/lib/os-release
 if ! command -v curl; then
     case ${ID,,} in
-        ubuntu|debian)
-            sudo apt-get update
-            sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
+    ubuntu | debian)
+        sudo apt-get update
+        sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
         ;;
     esac
 fi
@@ -28,7 +28,7 @@ fi
 curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=dhcp bash
 
 echo 'INTERFACES="eth1"' | sudo tee /etc/default/isc-dhcp-server
-sudo tee <<EOF /etc/dhcp/dhcpd.conf
+sudo tee /etc/dhcp/dhcpd.conf <<EOF
 option domain-name "electrocucaracha.lan";
 option domain-name-servers ns1.electrocucaracha.lan, ns2.electrocucaracha.lan;
 

@@ -36,19 +36,19 @@ while IFS= read -r image; do
             sudo docker push "localhost:5000/$image_name"
         fi
     fi
-done < actions.txt
+done <actions.txt
 
 # Create tinkerbell template
 attempt_counter=0
 templates=$(tink template get --no-headers)
 until echo "$templates" | grep -q hello_world_workflow; do
-    if [ ${attempt_counter} -eq ${max_attempts} ];then
+    if [ ${attempt_counter} -eq ${max_attempts} ]; then
         echo "Max attempts reached"
         exit 1
     fi
-    < hello-world.tmpl tink template create || true
+    tink <hello-world.tmpl template create || true
 
-    attempt_counter=$((attempt_counter+1))
+    attempt_counter=$((attempt_counter + 1))
     sleep 5
     templates=$(tink template get --no-headers)
 done
@@ -57,13 +57,13 @@ template_id=$(tink template get --no-headers | grep hello_world_workflow | awk -
 # Register Hardware
 attempt_counter=0
 hardware=$(tink hardware get --no-headers)
-until echo "$hardware" | grep -q "$mac_address" ; do
-    if [ ${attempt_counter} -eq ${max_attempts} ];then
+until echo "$hardware" | grep -q "$mac_address"; do
+    if [ ${attempt_counter} -eq ${max_attempts} ]; then
         echo "Max attempts reached"
         exit 1
     fi
-    < testvm.json tink hardware push || true
-    attempt_counter=$((attempt_counter+1))
+    tink <testvm.json hardware push || true
+    attempt_counter=$((attempt_counter + 1))
     sleep 5
     hardware=$(tink hardware get --no-headers)
 done

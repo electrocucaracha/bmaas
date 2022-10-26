@@ -21,6 +21,18 @@ on:
   workflow_dispatch:
 
 jobs:
+  check-format:
+    name: Check scripts format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run the sh-checker
+        uses: luizm/action-sh-checker@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SHFMT_OPTS: -i 4 -s
+        with:
+          sh_checker_shellcheck_disable: true
   changes:
     runs-on: ubuntu-latest
     outputs:
