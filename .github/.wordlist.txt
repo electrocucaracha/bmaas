@@ -1,5 +1,5 @@
-bifrost
-bmaas
+Bifrost
+BMaaS
 brightgreen
 CNCF
 electrocucaracha
@@ -8,12 +8,12 @@ href
 https
 img
 initVagrant
-libvirt
-linter
+Libvirt
+Linter
 ly
 opensource
-openstack
-pxe
+OpenStack
+PXE
 rubocop
 src
 svg
