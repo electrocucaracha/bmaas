@@ -30,6 +30,18 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  # Configure DNS resolver
+  config.vm.provision 'shell', privileged: false, inline: <<-SHELL
+    if command -v systemd-resolve && sudo systemd-resolve --status --interface eth0; then
+        sudo systemd-resolve --interface eth0 --set-dns 1.1.1.1 --flush-caches
+        sudo systemd-resolve --status --interface eth0
+    fi
+    if [ -f /etc/netplan/01-netcfg.yaml ]; then
+        sudo sed -i "s/addresses: .*/addresses: [1.1.1.1, 8.8.8.8, 8.8.4.4]/g" /etc/netplan/01-netcfg.yaml
+        sudo netplan apply
+    fi
+  SHELL
+
   config.vm.provider 'virtualbox' do |v|
     v.gui = false
     v.customize ['modifyvm', :id, '--nictype1', 'virtio', '--cableconnected1', 'on']
