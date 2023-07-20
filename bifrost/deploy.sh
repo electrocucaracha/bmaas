@@ -38,14 +38,15 @@ fi
 BIFROST_INVENTORY_SOURCE="$(pwd)/testvm.json"
 export BIFROST_INVENTORY_SOURCE
 if [ ! -d "$bifrost_src_path" ]; then
-    sudo -E git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/zed "$bifrost_src_path"
+    sudo -E git clone --depth 1 https://opendev.org/openstack/bifrost -b stable/2023.1 "$bifrost_src_path"
     sudo chown -R "$USER" "${bifrost_src_path}"
 fi
 pxe_nic="${BIFROST_PXE_NIC:-$(ip route get 8.8.8.8 | grep "^8." | awk '{ print $5 }')}"
 pushd /opt/stack/bifrost
 ./bifrost-cli install \
     --network-interface "${pxe_nic}" \
-    --dhcp-pool 10.11.0.10-10.11.0.100
+    --dhcp-pool 10.11.0.10-10.11.0.100 \
+    --disable-dhcp
 # shellcheck disable=SC1091
 source /opt/stack/bifrost/bin/activate
 export OS_CLOUD=bifrost
