@@ -56,7 +56,7 @@ jobs:
   check-pxe:
     if: needs.changes.outputs.pxe == 'true'
     name: Check PXE server installation in an Ubuntu Bionic Virtual Environment
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - changes
     steps:
@@ -107,7 +107,7 @@ jobs:
   check-tinkerbell:
     if: needs.changes.outputs.tinkerbell == 'true'
     name: Check Tinkerbell installation in an Ubuntu Bionic Virtual Environment
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs:
       - changes
     steps:
