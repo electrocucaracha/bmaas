@@ -25,7 +25,7 @@ jobs:
     name: Check scripts format
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - name: Run the sh-checker
         uses: luizm/action-sh-checker@v0.7.0
         env:
@@ -40,7 +40,7 @@ jobs:
       bifrost: ${{ steps.filter.outputs.bifrost }}
       tinkerbell: ${{ steps.filter.outputs.tinkerbell }}
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - uses: dorny/paths-filter@v2.11.1
         if: ${{ !env.ACT }}
         id: filter
@@ -60,7 +60,7 @@ jobs:
     needs:
       - changes
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - name: Deploy services
         run: |
           cd pxe_server/
@@ -74,7 +74,7 @@ jobs:
     needs:
       - changes
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - name: Cache Vagrant boxes
         uses: actions/cache@v3.3.2
         with:
@@ -111,7 +111,7 @@ jobs:
     needs:
       - changes
     steps:
-      - uses: actions/checkout@v4.0.0
+      - uses: actions/checkout@v4.1.0
       - name: Deploy services
         run: |
           cd tinkerbell/
