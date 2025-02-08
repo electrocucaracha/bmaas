@@ -1,26 +1,26 @@
 {
-    "testvm1": {
-      "uuid": "00000000-0000-0000-0000-000000000001",
-      "driver_info": {
-        "power": {
-          "ipmi_address": "10.11.0.3",
-          "ipmi_username": "ADMIN",
-          "ipmi_password": "ADMIN"
-        }
-      },
-      "nics": [
-        {
-          "mac": "00:00:00:00:00:02"
-        }
-      ],
-      "driver": "ipmi",
-      "ipv4_address": "10.11.0.5",
-      "properties": {
-        "cpu_arch": "x86_64",
-        "ram": "512",
-        "disk_size": "10",
-        "cpus": "1"
-      },
-      "name": "testvm1"
-    }
+  "testvm1": {
+    "uuid": "00000000-0000-0000-0000-000000000001",
+    "driver_info": {
+      "power": {
+        "ipmi_address": "10.11.0.3",
+        "ipmi_username": "ADMIN",
+        "ipmi_password": "ADMIN"
+      }
+    },
+    "nics": [
+      {
+        "mac": "00:00:00:00:00:02"
+      }
+    ],
+    "driver": "ipmi",
+    "ipv4_address": "10.11.0.5",
+    "properties": {
+      "cpu_arch": "x86_64",
+      "ram": "512",
+      "disk_size": "10",
+      "cpus": "1"
+    },
+    "name": "testvm1"
+  }
 }
