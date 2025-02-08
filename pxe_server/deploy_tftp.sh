@@ -13,17 +13,6 @@ set -o xtrace
 set -o errexit
 set -o nounset
 
-# shellcheck disable=SC1091
-source /etc/os-release || source /usr/lib/os-release
-if ! command -v curl; then
-    case ${ID,,} in
-    ubuntu | debian)
-        sudo apt-get update
-        sudo apt-get install -y -qq -o=Dpkg::Use-Pty=0 curl
-        ;;
-    esac
-fi
-
 # NOTE: Shorten link -> https://github.com/electrocucaracha/pkg-mgr_scripts
 curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=tftp bash
 

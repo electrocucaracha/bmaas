@@ -82,6 +82,7 @@ Vagrant.configure('2') do |config|
       set -o pipefail
 
       cd /vagrant
+      ./_configure.sh | tee ~/configure.log
       ./deploy_tftp.sh | tee ~/deploy_tftp.log
       ./deploy_dhcp.sh | tee ~/deploy_dhcp.log
       sudo nmap --script broadcast-dhcp-discover -e eth1
