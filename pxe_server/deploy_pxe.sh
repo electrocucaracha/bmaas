@@ -30,6 +30,7 @@ popd
 
 # PXELINUX Configuration for 00:00:00:00:00:02
 # https://wiki.syslinux.org/wiki/index.php?title=PXELINUX#Configuration
+# editorconfig-checker-disable
 sudo tee /var/lib/tftpboot/ubuntu-installer/amd64/pxelinux.cfg/01-00-00-00-00-00-02 <<EOF
 DEFAULT cli
 LABEL cli
@@ -37,3 +38,4 @@ LABEL cli
   INITRD initrd.gz
   APPEND ip=dhcp interface=enp0s8 --- quiet
 EOF
+# editorconfig-checker-enable
