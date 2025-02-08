@@ -3,3 +3,5 @@
 .vagrant/
 .tox/
 *.dic
+node_modules/
+package*.json

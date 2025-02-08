@@ -7,19 +7,17 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-
 name: Check End-to-End installation
 # yamllint disable-line rule:truthy
 on:
   push:
     paths:
-      - 'pxe_server/*'
-      - 'bifrost/*'
-      - 'tinkerbell/*'
+      - "pxe_server/*"
+      - "bifrost/*"
+      - "tinkerbell/*"
   schedule:
-    - cron: '0 0 * * 5'
+    - cron: "0 0 * * 5"
   workflow_dispatch:
-
 jobs:
   check-format:
     name: Check scripts format

@@ -7,9 +7,7 @@
 # which accompanies this distribution, and is available at
 # http://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-
-version: '3.8'
-
+version: "3.8"
 services:
   # Stores Tinkerbell's hardware data, templates, and workflows
   db:
@@ -173,7 +171,6 @@ services:
     volumes:
       - nginx_data:/opt/tinkerbell/boots/
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-
 volumes:
   db_data:
     driver: local
