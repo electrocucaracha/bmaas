@@ -2,11 +2,9 @@
   "testvm1": {
     "uuid": "00000000-0000-0000-0000-000000000001",
     "driver_info": {
-      "power": {
-        "ipmi_address": "10.11.0.3",
-        "ipmi_username": "ADMIN",
-        "ipmi_password": "ADMIN"
-      }
+      "ipmi_address": "10.11.0.3",
+      "ipmi_username": "ADMIN",
+      "ipmi_password": "ADMIN"
     },
     "nics": [
       {
