@@ -28,6 +28,7 @@ fi
 curl -fsSL http://bit.ly/install_bin | PKG_BINDEP_PROFILE=dhcp bash
 
 echo 'INTERFACES="eth1"' | sudo tee /etc/default/isc-dhcp-server
+# editorconfig-checker-disable
 sudo tee /etc/dhcp/dhcpd.conf <<EOF
 option domain-name "electrocucaracha.lan";
 option domain-name-servers ns1.electrocucaracha.lan, ns2.electrocucaracha.lan;
@@ -60,6 +61,7 @@ group {
   }
 }
 EOF
+# editorconfig-checker-enable
 
 sudo systemctl restart isc-dhcp-server
 sudo systemctl enable isc-dhcp-server
