@@ -14,6 +14,8 @@ if [[ ${DEBUG:-false} == "true" ]]; then
     set -o xtrace
 fi
 
+trap "make fmt" EXIT
+
 function get_version {
     local type="$1"
     local name="$2"
@@ -52,3 +54,11 @@ function _get_latest_github_tag {
 
 sed -i "s/export TINKERBELL_VERSION=.*/export TINKERBELL_VERSION=$(get_version github_tag tinkerbell/tink)/g" ./tinkerbell/defaults.env
 sed -i "s/export CFSSL_VERSION=.*/export CFSSL_VERSION=$(get_version github_release cloudflare/cfssl)/g" ./tinkerbell/defaults.env
+
+# Update GitHub Action commit hashes
+gh_actions=$(grep -r "uses: [a-zA-Z\-]*/[\_a-z\-]*@" .github/ | sed 's/@.*//' | awk -F ': ' '{ print $3 }' | sort -u)
+for action in $gh_actions; do
+    commit_hash=$(git ls-remote "https://github.com/$action" | grep 'refs/tags/[v]\?[0-9][0-9\.]*$' | sed 's|refs/tags/[vV]\?[\.]\?||g' | sort -u -k2 -V | tail -1 | awk '{ printf "%s # %s\n",$1,$2 }')
+    # shellcheck disable=SC2267
+    grep -ElRZ "uses: $action@" .github/ | xargs -0 -l sed -i -e "s|uses: $action@.*|uses: $action@$commit_hash|g"
+done
