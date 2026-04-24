@@ -14,17 +14,20 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
 permissions:
-  contents: write  # for technote-space/create-pr-action to push code
-  pull-requests: write  # for technote-space/create-pr-action to create a PR
+  contents: read
 jobs:
   check-versions:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # for technote-space/create-pr-action to push code
+      pull-requests: write # for technote-space/create-pr-action to create a PR
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # 6.0.2
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # 6.0.2
         with:
+          persist-credentials: false
           # Fine-grained PAT with contents:write and workflows:write scopes
-          token: ${{ secrets.WORKFLOW_TOKEN }}
-      - uses: technote-space/create-pr-action@91114507cf92349bec0a9a501c2edf1635427bc5  # 2.1.4
+          token: ${{ secrets.WORKFLOW_TOKEN }} # zizmor: ignore[secrets-outside-env]
+      - uses: technote-space/create-pr-action@91114507cf92349bec0a9a501c2edf1635427bc5 # 2.1.4
         with:
           EXECUTE_COMMANDS: |
             ./ci/update_versions.sh
@@ -34,9 +37,14 @@ jobs:
           PR_TITLE: "chore: update versions"
   check-dictionary:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # for technote-space/create-pr-action to push code
+      pull-requests: write # for technote-space/create-pr-action to create a PR
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # 6.0.2
-      - uses: technote-space/create-pr-action@91114507cf92349bec0a9a501c2edf1635427bc5  # 2.1.4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # 6.0.2
+        with:
+          persist-credentials: false
+      - uses: technote-space/create-pr-action@91114507cf92349bec0a9a501c2edf1635427bc5 # 2.1.4
         with:
           EXECUTE_COMMANDS: |
             sudo apt-get update
