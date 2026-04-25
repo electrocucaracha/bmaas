@@ -24,10 +24,10 @@ mac_address="00:00:00:00:00:02"
 sudo -E docker-compose up -d
 
 # Setup Local Registry
-sudo docker login --username "${REGISTRY_USERNAME:-docker}" --password "${REGISTRY_PASSWORD:-secret}" http://localhost:5000
+sudo docker login --username "${REGISTRY_USERNAME}" --password "${REGISTRY_PASSWORD}" http://localhost:5000
 while IFS= read -r image; do
     image_name="${image#*/}"
-    if [ "$(curl --user "${REGISTRY_USERNAME:-docker}:${REGISTRY_PASSWORD:-secret}" "http://localhost:5000/v2/${image_name%:*}/tags/list" -o /dev/null -w '%{http_code}\n' -s)" != "200" ]; then
+    if [ "$(curl --user "${REGISTRY_USERNAME}:${REGISTRY_PASSWORD}" "http://localhost:5000/v2/${image_name%:*}/tags/list" -o /dev/null -w '%{http_code}\n' -s)" != "200" ]; then
         if command -v skopeo; then
             sudo skopeo copy --dest-tls-verify=false "docker://$image" "docker://localhost:5000/$image_name"
         else
